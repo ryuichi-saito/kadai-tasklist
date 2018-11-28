@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -40,9 +41,16 @@ public class IndexServlet extends HttpServlet {
 	    List<TaskList_DTO> tasks = em.createNamedQuery("getAllTasks", TaskList_DTO.class)  //JPQL("getAllTasks")を引数に指定、DBへの問い合わせを実行
 	                                 .getResultList();  //getResultList()でリスト形式で結果を取得する
 
-	    response.getWriter().append(Integer.valueOf(tasks.size()).toString());  //データの登録件数を取得する
+	    //response.getWriter().append(Integer.valueOf(tasks.size()).toString());  //データの登録件数を取得する、最初だけ確認後コメントアウト
 
 	    em.close();
+
+	    request.setAttribute("tasks", tasks);
+	    // List<TaskList_DTO> tasksに入ったタスクの内容を、同じtasksというリスト名でJSP内で扱えるようにリクエストスコープに格納
+
+	    // 以下の２行で、サーブレットからビューとなるJSPを呼び出す
+	    RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/tasks/index.jsp"); //getRequestDispatcherメソッドの引数にJSPファイルを指定する
+	    rd.forward(request, response); //forwardメソッドでレスポンセの画面としてJSPファイルを呼び出す
 	}
 
 }
