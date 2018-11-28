@@ -7,9 +7,18 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-
 @Entity
+
+@NamedQueries({
+    @NamedQuery(  //データを全件取得するJPQL（SELECT文）を、"getAllTasks"という名で用意する。
+            name = "getAllTasks",
+            query = "SELECT m FROM TaskList_DTO AS m ORDER BY m.id DESC"
+            )
+})
+
 @Table(name = "tasks")
 public class TaskList_DTO {
     @Id
