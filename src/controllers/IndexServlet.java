@@ -36,12 +36,12 @@ public class IndexServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		// response.getWriter().append("Served at: ").append(request.getContextPath()); Tomcat動作確認済み
 
-	    EntityManager em = DBUtil_DAO.createEntityManager();
+	    EntityManager em = DBUtil_DAO.createEntityManager(); //EntityManagerのオブジェクト生成
 
 	    List<TaskList_DTO> tasks = em.createNamedQuery("getAllTasks", TaskList_DTO.class)  //JPQL("getAllTasks")を引数に指定、DBへの問い合わせを実行
 	                                 .getResultList();  //getResultList()でリスト形式で結果を取得する
 
-	    //response.getWriter().append(Integer.valueOf(tasks.size()).toString());  //データの登録件数を取得する、最初だけ確認後コメントアウト
+	    //response.getWriter().append(Integer.valueOf(tasks.size()).toString());  //データの登録件数を取得する、最初だけ確認、その後コメントアウト
 
 	    em.close();
 
@@ -50,7 +50,7 @@ public class IndexServlet extends HttpServlet {
 
 	    // 以下の２行で、サーブレットからビューとなるJSPを呼び出す
 	    RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/tasks/index.jsp"); //getRequestDispatcherメソッドの引数にJSPファイルを指定する
-	    rd.forward(request, response); //forwardメソッドでレスポンセの画面としてJSPファイルを呼び出す
+	    rd.forward(request, response); //forwardメソッドでレスポンスの画面としてJSPファイルを呼び出す
 	}
 
 }
