@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <label for="title">タイトル</label><br />
-<input type="text" name="title" value="${task.title}" /> <%--value属性の中身がサーバーへ送信される--%>
+<input type="text" name="title" value="${task.title}" /> <%--value属性の中身（この場合はtask.title）がtitleという名前でサーバーへ送信される--%>
 <br /><br />
 
 <label for="content">タスク内容</label><br />

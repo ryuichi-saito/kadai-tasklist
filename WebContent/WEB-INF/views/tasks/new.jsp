@@ -4,7 +4,7 @@
     <c:param name="content">
         <h2>タスク新規登録ページ</h2>
 
-        <form method="POST" action="${pageContext.request.contextPath}/create">
+        <form method="POST" action="${pageContext.request.contextPath}/create"> <%--CreateServletにPOSTメソッドで値を渡す--%>
             <c:import url="_form.jsp" />
         </form>
 
