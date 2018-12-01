@@ -16,7 +16,7 @@ import models.TaskList_DTO;
  */
 @WebServlet("/new")
 public class NewServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     /**
      * @see HttpServlet#HttpServlet()
@@ -26,16 +26,16 @@ public class NewServlet extends HttpServlet {
         // TODO Auto-generated constructor stub
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	    request.setAttribute("_token", request.getSession().getId()); //セキュリティ対策
+    /**
+     * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+     */
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setAttribute("_token", request.getSession().getId()); //セキュリティ対策
         request.setAttribute("task", new TaskList_DTO()); /*TaskList_DTOクラスのオブジェクトを作って、それをtaskという名前でリクエストスコープへ
                                                             何も入っていないことを示すために、空のオブジェクトを（new.jspに）渡す*/
 
         RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/tasks/new.jsp"); //呼び出すJSPファイルを指定
         rd.forward(request, response); //forward()メソッドで指定したJSPファイルを呼ぶ
-	}
+    }
 
 }

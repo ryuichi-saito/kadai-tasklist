@@ -17,7 +17,7 @@ import utils.DBUtil_DAO;
  */
 @WebServlet("/create")
 public class CreateServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     /**
      * @see HttpServlet#HttpServlet()
@@ -27,11 +27,11 @@ public class CreateServlet extends HttpServlet {
         // TODO Auto-generated constructor stub
     }
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	    String _token = (String)request.getParameter("_token");
+    /**
+     * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+     */
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String _token = (String)request.getParameter("_token");
         if(_token != null && _token.equals(request.getSession().getId())) {
             EntityManager em = DBUtil_DAO.createEntityManager(); //Entityマネージャーのオブジェクトを生成
 
@@ -48,12 +48,13 @@ public class CreateServlet extends HttpServlet {
             t.setUpdated_at(currentTime);
 
             em.getTransaction().begin();
-            em.persist(t); //必要な情報をセットしたTaskListクラスのオブジェクトをpersistメソッドを使ってDBにセーブする
+            em.persist(t); //必要な情報をセットしたTaskList_DTOクラスのオブジェクトをpersistメソッドを使ってDBにセーブする
             em.getTransaction().commit(); //コミットを忘れずに
+            request.getSession().setAttribute("sessionScope.flush", "登録完了しました"); //登録完了の文言をflushという名前でセッションスコープに格納
             em.close();
 
             response.sendRedirect(request.getContextPath() + "/index");
         }
-	}
+    }
 
 }

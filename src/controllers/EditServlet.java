@@ -43,8 +43,8 @@ public class EditServlet extends HttpServlet {
         request.setAttribute("_token", request.getSession().getId()); //セキュリティ対策
 
         if(t != null) {
-            request.getSession().setAttribute("task_id", t.getId()); /*タスクの詳細が入ったTaskList_DTO型のオブジェクト t のインスタンスフィールド id を取得、
-                                                                       task_idという名前でedit.jsp内で扱えるようにセッションスコープにセットする*/
+            request.getSession().setAttribute("sessionScope.task_id", t.getId()); /*タスクの詳細が入ったTaskList_DTO型のオブジェクト t のインスタンスフィールド id を取得、
+                                                                                    sessionScope.task_idという名前でedit.jsp内で扱えるようにセッションスコープにセットする*/
         }
 
         RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/tasks/edit.jsp"); //ビューとなるjspファイルを指定

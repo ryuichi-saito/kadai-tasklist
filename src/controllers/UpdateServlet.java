@@ -52,9 +52,10 @@ public class UpdateServlet extends HttpServlet {
 
             em.getTransaction().begin();
             em.getTransaction().commit();
+            request.getSession().setAttribute("sessionScope.flush", "更新が完了しました");  //更新完了の文言をflushという名前でセッションスコープに格納
             em.close();
 
-            request.getSession().removeAttribute("task_id"); //セッションスコープに保存されたtask_idを消去する
+            request.getSession().removeAttribute("sessionScope.task_id"); //セッションスコープに保存されたtask_idを消去する
 
             response.sendRedirect(request.getContextPath() + "/index"); //index.jspへリダイレクト
         }
