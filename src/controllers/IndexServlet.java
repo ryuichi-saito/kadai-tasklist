@@ -38,7 +38,27 @@ public class IndexServlet extends HttpServlet {
 
         EntityManager em = DBUtil_DAO.createEntityManager(); //EntityManagerのオブジェクト生成
 
-        List<TaskList_DTO> tasks = em.createNamedQuery("getAllTasks", TaskList_DTO.class)  //JPQL("getAllTasks")を引数に指定、DBへの問い合わせを実行
+        // ページネーション
+        int page = 1;
+        try {
+            page = Integer.parseInt(request.getParameter("page"));
+        } catch(NumberFormatException e) {}
+
+        List<TaskList_DTO> tasks = em.createNamedQuery("getAllTasks", TaskList_DTO.class) //JPQL("getAllTasks")を引数に指定、DBへの問い合わせを実行
+                                    .setFirstResult(15 * (page - 1))
+                                    .setMaxResults(15)
+                                    .getResultList(); //getResultList()でリスト形式で結果を取得する
+
+        long tasks_count = (long)em.createNamedQuery("getTasksCount", Long.class)
+                                         .getSingleResult();
+
+        em.close();
+
+        request.setAttribute("tasks", tasks);  // List<TaskList_DTO> tasksに入ったタスクの内容を、同じtasksというリスト名でJSP内で扱えるようにリクエストスコープに格納
+        request.setAttribute("tasks_count", tasks_count);  // tasks_countをリクエストスコープに格納*/
+        request.setAttribute("page", page); // pageをリクエストスコープへ
+
+        /*List<TaskList_DTO> tasks = em.createNamedQuery("getAllTasks", TaskList_DTO.class)  //JPQL("getAllTasks")を引数に指定、DBへの問い合わせを実行
                                      .getResultList();  //getResultList()でリスト形式で結果を取得する
 
         //response.getWriter().append(Integer.valueOf(tasks.size()).toString());  //データの登録件数を取得する、最初だけ確認、その後コメントアウト
@@ -46,7 +66,7 @@ public class IndexServlet extends HttpServlet {
         em.close();
 
         request.setAttribute("tasks", tasks);
-        // List<TaskList_DTO> tasksに入ったタスクの内容を、同じtasksというリスト名でJSP内で扱えるようにリクエストスコープに格納
+        // List<TaskList_DTO> tasksに入ったタスクの内容を、同じtasksというリスト名でJSP内で扱えるようにリクエストスコープに格納*/
 
         if(request.getSession().getAttribute("sessionScope.flush") != null) {
             request.setAttribute("flush", request.getSession().getAttribute("sessionScope.flush"));

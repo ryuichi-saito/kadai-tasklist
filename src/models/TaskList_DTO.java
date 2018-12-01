@@ -16,6 +16,10 @@ import javax.persistence.Table;
     @NamedQuery(  //データを全件取得するJPQL（SELECT文）を、"getAllTasks"という名で用意する。
             name = "getAllTasks",
             query = "SELECT m FROM TaskList_DTO AS m ORDER BY m.id DESC"
+            ),
+    @NamedQuery(
+            name = "getTasksCount",
+            query = "SELECT COUNT(m) FROM TaskList_DTO AS m"
             )
 })
 
