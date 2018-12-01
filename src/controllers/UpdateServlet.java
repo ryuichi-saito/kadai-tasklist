@@ -2,8 +2,10 @@ package controllers;
 
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -11,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import models.TaskList_DTO;
+import models.validators.TaskValidator;
 import utils.DBUtil_DAO;
 
 /**
@@ -50,14 +53,35 @@ public class UpdateServlet extends HttpServlet {
             Timestamp currentTime = new Timestamp(System.currentTimeMillis());
             t.setUpdated_at(currentTime);
 
-            em.getTransaction().begin();
+            /*em.getTransaction().begin();
             em.getTransaction().commit();
             request.getSession().setAttribute("sessionScope.flush", "更新が完了しました");  //更新完了の文言をflushという名前でセッションスコープに格納
             em.close();
 
             request.getSession().removeAttribute("sessionScope.task_id"); //セッションスコープに保存されたtask_idを消去する
 
-            response.sendRedirect(request.getContextPath() + "/index"); //index.jspへリダイレクト
+            response.sendRedirect(request.getContextPath() + "/index"); //index.jspへリダイレクト*/
+
+            List<String> errors = TaskValidator.validate(t);
+            if(errors.size() > 0) {
+                em.close();
+
+                request.setAttribute("_token", request.getSession().getId());
+                request.setAttribute("task", t);
+                request.setAttribute("errors", errors);
+
+                RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/tasks/edit.jsp");
+                rd.forward(request, response);
+            } else {
+                em.getTransaction().begin();
+                em.getTransaction().commit();
+                request.getSession().setAttribute("sessionScope.flush", "更新が完了しました。");
+                em.close();
+
+                request.getSession().removeAttribute("sessionScope.task_id");
+
+                response.sendRedirect(request.getContextPath() + "/index");
+            }
         }
     }
 

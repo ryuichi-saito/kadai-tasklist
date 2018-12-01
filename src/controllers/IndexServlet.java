@@ -49,8 +49,8 @@ public class IndexServlet extends HttpServlet {
                                     .setMaxResults(15)
                                     .getResultList(); //getResultList()でリスト形式で結果を取得する
 
-        long tasks_count = (long)em.createNamedQuery("getTasksCount", Long.class)
-                                         .getSingleResult();
+        long tasks_count = (long)em.createNamedQuery("getTasksCount", Long.class) // JPQL("getTasksCount")を引数に指定、DBへの問い合わせを実行
+                                         .getSingleResult(); //検索結果が１件だけなので、getSingleResult()を使う
 
         em.close();
 
