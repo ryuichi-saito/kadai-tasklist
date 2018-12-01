@@ -42,8 +42,10 @@ public class EditServlet extends HttpServlet {
         request.setAttribute("task", t); //TaskList_DTO型のオブジェクト t に入ったタスクの詳細を、taskという名前でshow.jsp内で扱えるようにリクエストスコープにセットする
         request.setAttribute("_token", request.getSession().getId()); //セキュリティ対策
 
-        request.getSession().setAttribute("task_id", t.getId()); /*タスクの詳細が入ったTaskList_DTO型のオブジェクト t のインスタンスフィールド id を取得、
-                                                                   task_idという名前でedit.jsp内で扱えるようにセッションスコープにセットする*/
+        if(t != null) {
+            request.getSession().setAttribute("task_id", t.getId()); /*タスクの詳細が入ったTaskList_DTO型のオブジェクト t のインスタンスフィールド id を取得、
+                                                                       task_idという名前でedit.jsp内で扱えるようにセッションスコープにセットする*/
+        }
 
         RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/tasks/edit.jsp"); //ビューとなるjspファイルを指定
         rd.forward(request, response); //指定したjspファイルを呼び出す
