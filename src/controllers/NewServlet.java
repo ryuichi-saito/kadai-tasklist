@@ -31,11 +31,10 @@ public class NewServlet extends HttpServlet {
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setAttribute("_token", request.getSession().getId()); //セキュリティ対策
-        request.setAttribute("task", new TaskList_DTO()); /*TaskList_DTOクラスのオブジェクトを作って、それをtaskという名前でリクエストスコープへ
-                                                            何も入っていないことを示すために、空のオブジェクトを（new.jspに）渡す*/
+        request.setAttribute("task", new TaskList_DTO());
 
-        RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/tasks/new.jsp"); //呼び出すJSPファイルを指定
-        rd.forward(request, response); //forward()メソッドで指定したJSPファイルを呼ぶ
+        RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/tasks/new.jsp");
+        rd.forward(request, response);
     }
 
 }

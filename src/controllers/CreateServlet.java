@@ -36,12 +36,12 @@ public class CreateServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String _token = (String)request.getParameter("_token");
         if(_token != null && _token.equals(request.getSession().getId())) {
-            EntityManager em = DBUtil_DAO.createEntityManager(); //Entityマネージャーのオブジェクトを生成
+            EntityManager em = DBUtil_DAO.createEntityManager();
 
             TaskList_DTO t = new TaskList_DTO();
 
-            String title = request.getParameter("title"); //ブラウザから送信された情報（title）をサーブレットで受け取るrequest.getParameter()メソッド
-            t.setTitle(title);                            //このメソッドで取得した値は全てString型のデータとなる
+            String title = request.getParameter("title");
+            t.setTitle(title);
 
             String content = request.getParameter("content");
             t.setContent(content);
@@ -63,9 +63,9 @@ public class CreateServlet extends HttpServlet {
                 rd.forward(request, response);
             } else {
                 em.getTransaction().begin();
-                em.persist(t);  //必要な情報をセットしたTaskList_DTOクラスのオブジェクトをpersistメソッドを使ってDBにセーブする
-                em.getTransaction().commit();  //コミットを忘れずに
-                request.getSession().setAttribute("sessionScope.flush", "登録が完了しました。"); //登録完了の文言をflushという名前でセッションスコープに格納
+                em.persist(t);
+                em.getTransaction().commit();
+                request.getSession().setAttribute("sessionScope.flush", "登録が完了しました。");
                 em.close();
 
                 response.sendRedirect(request.getContextPath() + "/index");

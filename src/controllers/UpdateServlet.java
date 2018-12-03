@@ -37,14 +37,12 @@ public class UpdateServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String _token = (String)request.getParameter("_token"); //セキュリティ対策
         if(_token != null && _token.equals(request.getSession().getId())) {
-            EntityManager em = DBUtil_DAO.createEntityManager(); //EntityManagerのオブジェクト生成
+            EntityManager em = DBUtil_DAO.createEntityManager();
 
-            TaskList_DTO t = em.find(TaskList_DTO.class, (Integer)(request.getSession().getAttribute("task_id")));
-            //EditServletでセッションスコープにtask_idの名前で保存したデータを使う
-            /*request.getParameter()でtask_idの値を受け取り、Integer型に変換する
-             * それをfindメソッドの引数にし、変更するタスクを特定する*/
+            TaskList_DTO t = em.find(TaskList_DTO.class, (Integer)(request.getSession().getAttribute("sessionScope.task_id")));
 
-            String title = request.getParameter("title"); //変更するタスクにインスタンスフィールドを設定し直す=更新処理
+
+            String title = request.getParameter("title");
             t.setTitle(title);
 
             String content = request.getParameter("content");
@@ -53,15 +51,7 @@ public class UpdateServlet extends HttpServlet {
             Timestamp currentTime = new Timestamp(System.currentTimeMillis());
             t.setUpdated_at(currentTime);
 
-            /*em.getTransaction().begin();
-            em.getTransaction().commit();
-            request.getSession().setAttribute("sessionScope.flush", "更新が完了しました");  //更新完了の文言をflushという名前でセッションスコープに格納
-            em.close();
-
-            request.getSession().removeAttribute("sessionScope.task_id"); //セッションスコープに保存されたtask_idを消去する
-
-            response.sendRedirect(request.getContextPath() + "/index"); //index.jspへリダイレクト*/
-
+            //入力チェック
             List<String> errors = TaskValidator.validate(t);
             if(errors.size() > 0) {
                 em.close();

@@ -34,21 +34,19 @@ public class EditServlet extends HttpServlet {
         EntityManager em = DBUtil_DAO.createEntityManager(); //EntityManagerのオブジェクト生成
 
         TaskList_DTO t = em.find(TaskList_DTO.class, Integer.parseInt(request.getParameter("id")));
-        /*request.getParameter()でidの値を受け取り、Integer型に変換する
-         * それをfindメソッドの引数にし、タスクの詳細を取得する*/
+
 
         em.close();
 
-        request.setAttribute("task", t); //TaskList_DTO型のオブジェクト t に入ったタスクの詳細を、taskという名前でshow.jsp内で扱えるようにリクエストスコープにセットする
+        request.setAttribute("task", t);
         request.setAttribute("_token", request.getSession().getId()); //セキュリティ対策
 
         if(t != null) {
-            request.getSession().setAttribute("sessionScope.task_id", t.getId()); /*タスクの詳細が入ったTaskList_DTO型のオブジェクト t のインスタンスフィールド id を取得、
-                                                                                    sessionScope.task_idという名前でedit.jsp内で扱えるようにセッションスコープにセットする*/
+            request.getSession().setAttribute("sessionScope.task_id", t.getId());
         }
 
-        RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/tasks/edit.jsp"); //ビューとなるjspファイルを指定
-        rd.forward(request, response); //指定したjspファイルを呼び出す
+        RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/tasks/edit.jsp");
+        rd.forward(request, response);
         }
 
 }

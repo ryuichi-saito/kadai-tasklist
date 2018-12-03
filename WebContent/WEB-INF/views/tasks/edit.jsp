@@ -4,7 +4,7 @@
     <c:param name="content">
         <c:choose>
             <c:when test="${task != null}">
-                <h2>id : ${task.id} のタスク編集ページ</h2>
+                <h2>${task.title} :編集ページ</h2>
 
                 <form method="POST" action="${pageContext.request.contextPath}/update">
                     <c:import url="_form.jsp" />
@@ -18,8 +18,7 @@
                     <input type="hidden" name="_token" value="${_token}" />
                 </form>
 
-                <%--JavaScriptの文、関数の定義--%>
-                <%--送信するフォームはform配列のインデックスで指定する --%>
+
                 <script>
                     function confirmDestroy() {
                         if(confirm("本当に削除してよろしいですか？")) {

@@ -13,7 +13,7 @@ import javax.persistence.Table;
 @Entity
 
 @NamedQueries({
-    @NamedQuery(  //データを全件取得するJPQL（SELECT文）を、"getAllTasks"という名で用意する。
+    @NamedQuery(
             name = "getAllTasks",
             query = "SELECT m FROM TaskList_DTO AS m ORDER BY m.id DESC"
             ),
@@ -66,7 +66,7 @@ public class TaskList_DTO {
         this.content = content;
     }
 
-    public Timestamp getCreated_at() {
+       public Timestamp getCreated_at() {
         return created_at;
     }
 

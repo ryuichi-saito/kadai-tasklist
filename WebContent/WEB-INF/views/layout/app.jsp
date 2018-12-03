@@ -11,7 +11,7 @@
     <body>
         <div id="wrapper">
             <div id="header">
-                <h1>タスク管理アプリケーション</h1>
+                <h1><a href="${pageContext.request.contextPath}/index">タスク管理アプリケーション</a></h1>
             </div>
             <div id="content">
                 ${param.content} <%--ここに、各ページのビューの内容を記入する--%>

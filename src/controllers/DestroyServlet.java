@@ -35,18 +35,17 @@ public class DestroyServlet extends HttpServlet {
             EntityManager em = DBUtil_DAO.createEntityManager(); //EntityManagerのオブジェクト生成
 
             TaskList_DTO t = em.find(TaskList_DTO.class, (Integer)(request.getSession().getAttribute("sessionScope.task_id")));
-            /*request.getSession().getAttribute()でセッションスコープにあるidの値を受け取り、Integer型に変換する
-             * それをfindメソッドの引数にし、削除対象のタスクを特定する*/
+
 
             em.getTransaction().begin();
-            em.remove(t);  //必要な情報をセットしたTaskList_DTOクラスのオブジェクトをremoveメソッドを使ってDBから消す
+            em.remove(t);
             em.getTransaction().commit();
-            request.getSession().setAttribute("sessionScope.flush", "削除が完了しました");  //削除完了の文言をflushという名前でセッションスコープに格納
+            request.getSession().setAttribute("sessionScope.flush", "削除が完了しました");
             em.close();
 
-            request.getSession().removeAttribute("sessionScope.task_id"); //セッションスコープのtask_idを削除する
+            request.getSession().removeAttribute("sessionScope.task_id");
 
-            response.sendRedirect(request.getContextPath() + "/index"); //indexページへリダイレクト
+            response.sendRedirect(request.getContextPath() + "/index");
         }
     }
 

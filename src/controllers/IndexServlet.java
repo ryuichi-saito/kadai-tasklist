@@ -33,10 +33,7 @@ public class IndexServlet extends HttpServlet {
      * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // TODO Auto-generated method stub
-        // response.getWriter().append("Served at: ").append(request.getContextPath()); Tomcat動作確認済み
-
-        EntityManager em = DBUtil_DAO.createEntityManager(); //EntityManagerのオブジェクト生成
+        EntityManager em = DBUtil_DAO.createEntityManager();
 
         // ページネーション
         int page = 1;
@@ -44,39 +41,29 @@ public class IndexServlet extends HttpServlet {
             page = Integer.parseInt(request.getParameter("page"));
         } catch(NumberFormatException e) {}
 
-        List<TaskList_DTO> tasks = em.createNamedQuery("getAllTasks", TaskList_DTO.class) //JPQL("getAllTasks")を引数に指定、DBへの問い合わせを実行
+        List<TaskList_DTO> tasks = em.createNamedQuery("getAllTasks", TaskList_DTO.class)
                                     .setFirstResult(15 * (page - 1))
                                     .setMaxResults(15)
-                                    .getResultList(); //getResultList()でリスト形式で結果を取得する
+                                    .getResultList();
 
-        long tasks_count = (long)em.createNamedQuery("getTasksCount", Long.class) // JPQL("getTasksCount")を引数に指定、DBへの問い合わせを実行
-                                         .getSingleResult(); //検索結果が１件だけなので、getSingleResult()を使う
-
-        em.close();
-
-        request.setAttribute("tasks", tasks);  // List<TaskList_DTO> tasksに入ったタスクの内容を、同じtasksというリスト名でJSP内で扱えるようにリクエストスコープに格納
-        request.setAttribute("tasks_count", tasks_count);  // tasks_countをリクエストスコープに格納*/
-        request.setAttribute("page", page); // pageをリクエストスコープへ
-
-        /*List<TaskList_DTO> tasks = em.createNamedQuery("getAllTasks", TaskList_DTO.class)  //JPQL("getAllTasks")を引数に指定、DBへの問い合わせを実行
-                                     .getResultList();  //getResultList()でリスト形式で結果を取得する
-
-        //response.getWriter().append(Integer.valueOf(tasks.size()).toString());  //データの登録件数を取得する、最初だけ確認、その後コメントアウト
+        long tasks_count = (long)em.createNamedQuery("getTasksCount", Long.class)
+                                         .getSingleResult();
 
         em.close();
 
         request.setAttribute("tasks", tasks);
-        // List<TaskList_DTO> tasksに入ったタスクの内容を、同じtasksというリスト名でJSP内で扱えるようにリクエストスコープに格納*/
+        request.setAttribute("tasks_count", tasks_count);
+        request.setAttribute("page", page);
 
         if(request.getSession().getAttribute("sessionScope.flush") != null) {
             request.setAttribute("flush", request.getSession().getAttribute("sessionScope.flush"));
             request.getSession().removeAttribute("sessionScope.flush");
-        } //セッションスコープからリクエストスコープへフラッシュメッセージ文言を移し替えた後、セッションスコープから削除する
+        }
 
 
         // 以下の２行で、サーブレットからビューとなるJSPを呼び出す
-        RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/tasks/index.jsp"); //getRequestDispatcherメソッドの引数にJSPファイルを指定する
-        rd.forward(request, response); //forwardメソッドでレスポンスの画面としてJSPファイルを呼び出す
+        RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/tasks/index.jsp");
+        rd.forward(request, response);
     }
 
 }
