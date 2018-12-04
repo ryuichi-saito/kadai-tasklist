@@ -10,11 +10,11 @@
     </div>
 </c:if>
 
-<label for="title">タスク</label><br />
+<label for="title">タスクタイトル</label><br />
 <input type="text" name="title" value="${task.title}" />
 <br /><br />
 
-<label for="content">内容</label><br />
+<label for="content">タスク内容</label><br />
 <textarea name="content" rows="10" cols="50" ><c:out value="${task.content}"></c:out></textarea>
 <br /><br />
 

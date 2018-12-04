@@ -15,7 +15,7 @@
                 <table>
                     <thead>
                         <tr>
-                            <th>タスク</th>
+                            <th>タスクタイトル</th>
                             <th>登録日時</th>
                         </tr>
                     </thead>
